@@ -1,59 +1,31 @@
-# challenge-classification
-Challenge classification
+# Bearing analysis (classification)
 
-Contributors:
 
-Jacques Declercq
+## Description
 
-Jayesh Italiya
+You're part of a team of sweaty mechanics, working with machines all day. You're not mechanically inclined though, you're hired to make an automated bearing testing system. Your colleagues made the testing machine, you're here to process the data. A client has asked you to make a model to use in an scheduled maintenance system. A sample of the bearings in use of their new-fangled machine would be tested, and your model would predict whether a bearing is **faulty or not.
 
-Graciela Lopez Rosson
 
-Bilal Mesmoudi
+# Installation
 
-Amaury van Kesteren
+## Python version
+* Python 3.9
 
-# 0. Setting up the project
 
-Conda packages
+## Packages used
+* os
+* pandas
+* numpy
+* matplotlib.pyplot
+* scipy
+* seaborn
+* opencv
+* PIL
+* sklearn
 
-Github repo link: https://github.com/JayeshItaliya86/challenge-classification
+# Steps 
 
-ReadMe file
-
-Importing:
-
-```
-# Import libraries
-
-#Data analysis libraries
-import numpy as np 
-import pandas as pd 
-
-#Visulization and statistics libraries
-import matplotlib.pyplot as plt
-from matplotlib.pyplot import style
-from scipy import fftpack
-import seaborn as sns
-style.use('seaborn')
-
-# Model preprocessing libraries
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score, classification_report
-
-# Medel related libraries
-import statsmodels.api as sm
-from sklearn.linear_model import LinearRegression
-from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
-
-```
-
-# 1. data gathering and exploration
+## 1. data gathering and exploration
 Original dataset is composed of 2 csv files, one training data and one test data.
 The test data informs us that 112 experiments were done, 12 turned out to result in a correct bearings and 100 in faulty bearings.
 The training data has one target variable and 13 potential Xs:
@@ -80,7 +52,7 @@ Initial plotting for data exploration:
 
 ![heatmap](https://user-images.githubusercontent.com/84380197/128018543-12c4c051-0056-4036-b6d0-74da285e9d9a.png)
 
-# 2. data preprocessing
+## 2. data preprocessing
 
 The following columns are dropped:
 - experiment_id
@@ -103,7 +75,7 @@ def rename_column(df,prefix):
     return df.set_axis(column_name, axis=1)
 ```
 
-## Statistical feature engineering on the dimensions of the two bearings
+### Statistical feature engineering on the dimensions of the two bearings
 
 Vibrations on the first bearing and the second bearing are reworked to obtain the following derived features:
 - max
@@ -148,7 +120,7 @@ bearing_feature = [df_bearing_1_x,df_bearing_1_y,df_bearing_1_z,df_bearing_2_x,d
 list_column = ['fft_a1_x','fft_a1_y','fft_a1_z','fft_a2_x','fft_a2_y','fft_a2_z']
 ```
 
-## Fast Fourier Transformation on the 3 axes of bearing one and two column
+### Fast Fourier Transformation on the 3 axes of bearing one and two column
 
 ```
 def by_axis_bearing(bearing_feature,i):
@@ -191,7 +163,7 @@ This results in an amplitude variable per experiment per axe or in 6 additonal f
 
 We obtain a grand total of 80 features.
 
-# 3. Choosing, training and scoring a model
+## 3. Choosing, training and scoring a model
 
 Several models are tried, trained, grid searched and scored.
 Choosing the model is done by looking at the score, including cross-validation score, classification report, and confusion matrix.
@@ -286,7 +258,7 @@ plt.ylabel('Accuracy')
 plt.show()
 ```
 
-# 4. Feature importance order
+## 4. Feature importance order
 
 ```
 importances = pd.DataFrame({'feature':X_train.columns,'importance':np.round(Model_rf.feature_importances_,3)})
@@ -304,5 +276,13 @@ However, our model is able to predict only 2 out of 4 good bearings.
 
 The most important feature emerging from the feature engineering is the mean.
 
+# Contributors
+| Name                  | Github                                 |
+|-----------------------|----------------------------------------|
+| Graciela Lopez Rosson | https://github.com/GracielaLopezRosson |
+| Amaury van Kesteren | https://github.com/AmauryvanKeste |
+| Bilal Mesmoudi-attou | https://github.com/BMesm |
+| Jayesh Italiya | https://github.com/JayeshItaliya86 |
+| Jacques Declercq  | https://github.com/JacquesDeclercq | 
 
 
